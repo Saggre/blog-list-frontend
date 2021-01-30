@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Blog from './components/Blog';
 import Login from './components/Login';
 import NewBlog from './components/NewBlog';
@@ -6,11 +6,13 @@ import Notification from './components/Notification';
 import blogService from './services/blogs';
 import loginService from './services/login';
 import './index.css';
+import Toggleable from './components/Toggleable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, _setUser] = useState(null);
   const [message, setMessage] = useState({ text: '', timeout: 0 });
+  const blogFormRef = useRef();
 
   /**
    * Set new user
@@ -103,7 +105,9 @@ const App = () => {
    * @param blog
    * @returns {Promise<boolean>}
    */
-  const handleNewCreation = async (blog) => {
+  const handleBlogCreation = async (blog) => {
+    blogFormRef.current.toggleVisibility();
+
     try {
       const newBlog = await blogService.create(blog);
       setBlogs([...blogs, newBlog]);
@@ -142,7 +146,9 @@ const App = () => {
         &nbsp;
         <input type="button" onClick={() => handleLogout()} value="logout" />
       </div>
-      <NewBlog onCreate={(blog) => handleNewCreation(blog)} />
+      <Toggleable buttonLabel="new note" ref={blogFormRef}>
+        <NewBlog onCreate={(blog) => handleBlogCreation(blog)} />
+      </Toggleable>
       {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
     </div>
   );
