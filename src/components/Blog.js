@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import Toggleable from './Toggleable';
 
-const Blog = ({ blog }) => {
+const Blog = ({ blog, onLiked }) => {
   const blogRef = useRef();
 
   return (
@@ -15,7 +15,7 @@ const Blog = ({ blog }) => {
           likes&nbsp;
           {blog.likes}
           {' '}
-          <button type="button" onClick={() => {}}>like</button>
+          <button type="button" onClick={() => onLiked(blog)}>like</button>
         </div>
         <div>{blog.author}</div>
       </Toggleable>

@@ -37,6 +37,7 @@ const create = async (blog) => {
       likes: blog.likes,
       title: blog.title,
       url: blog.url,
+      author: blog.author,
     }, authConfig);
 
     return response.data;
@@ -45,4 +46,23 @@ const create = async (blog) => {
   }
 };
 
-export default { getAll, create, setToken };
+/**
+ * Add a like to a blog
+ * @param blog
+ * @returns {Promise<any>}
+ */
+const addLike = async (blog) => {
+  try {
+    const response = await axios.put(`${baseUrl}/${blog.id}`, {
+      likes: blog.likes + 1,
+    }, authConfig);
+
+    return response.data;
+  } catch (e) {
+    throw new Error('error' in e.response.data ? e.response.data.error : 'an unknown error occurred');
+  }
+};
+
+export default {
+  getAll, create, addLike, setToken,
+};

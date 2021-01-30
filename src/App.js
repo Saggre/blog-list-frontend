@@ -128,6 +128,27 @@ const App = () => {
     return false;
   };
 
+  /**
+   * Add a like to a blog
+   * @param blog
+   * @returns {Promise<void>}
+   */
+  const handleBlogLike = async (blog) => {
+    try {
+      const updatedBlog = await blogService.addLike(blog);
+      setBlogs([...blogs.filter((b) => b.id !== updatedBlog.id), updatedBlog]);
+      displayMessage({
+        type: 'success',
+        text: `liked ${blog.title} by ${blog.author}`,
+      });
+    } catch (e) {
+      displayMessage({
+        type: 'error',
+        text: e.toString(),
+      });
+    }
+  };
+
   if (user === null) {
     return (
       <>
@@ -149,7 +170,13 @@ const App = () => {
       <Toggleable buttonLabel="new note" buttonCloseLabel="close" ref={blogFormRef}>
         <NewBlog onCreate={(blog) => handleBlogCreation(blog)} />
       </Toggleable>
-      {blogs.map((blog) => <Blog key={blog.id} blog={blog} />)}
+      {blogs.sort((a, b) => {
+        if (a.likes === b.likes) {
+          return a.author > b.author ? 1 : -1;
+        }
+
+        return a.likes < b.likes ? 1 : -1;
+      }).map((blog) => <Blog key={blog.id} blog={blog} onLiked={(b) => handleBlogLike(b)} />)}
     </div>
   );
 };
