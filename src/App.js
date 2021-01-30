@@ -149,6 +149,27 @@ const App = () => {
     }
   };
 
+  /**
+   * Remove a blog
+   * @param blog
+   * @returns {Promise<void>}
+   */
+  const handleBlogRemove = async (blog) => {
+    try {
+      await blogService.remove(blog);
+      setBlogs([...blogs.filter((b) => b.id !== blog.id)]);
+      displayMessage({
+        type: 'success',
+        text: `removed ${blog.title} by ${blog.author}`,
+      });
+    } catch (e) {
+      displayMessage({
+        type: 'error',
+        text: e.toString(),
+      });
+    }
+  };
+
   if (user === null) {
     return (
       <>
@@ -176,7 +197,18 @@ const App = () => {
         }
 
         return a.likes < b.likes ? 1 : -1;
-      }).map((blog) => <Blog key={blog.id} blog={blog} onLiked={(b) => handleBlogLike(b)} />)}
+      }).map((blog) => (
+        <Blog
+          key={blog.id}
+          blog={blog}
+          onLike={(b) => handleBlogLike(b)}
+          onRemove={async (b) => {
+            if (window.confirm(`Remove blog ${b.title} by ${b.author}`)) {
+              await handleBlogRemove(b);
+            }
+          }}
+        />
+      ))}
     </div>
   );
 };

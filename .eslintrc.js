@@ -26,6 +26,7 @@ module.exports = {
     'no-console': 'off',
     'no-param-reassign': 'off',
     'no-underscore-dangle': 'off',
-    'react/prop-types': 'off'
+    'react/prop-types': 'off',
+    'no-alert': 'off'
   },
 };

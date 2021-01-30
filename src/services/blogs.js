@@ -63,6 +63,21 @@ const addLike = async (blog) => {
   }
 };
 
+/**
+ * Remove a blog
+ * @param blog
+ * @returns {Promise<any>}
+ */
+const remove = async (blog) => {
+  try {
+    const response = await axios.delete(`${baseUrl}/${blog.id}`, authConfig);
+
+    return response.data;
+  } catch (e) {
+    throw new Error('error' in e.response.data ? e.response.data.error : 'an unknown error occurred');
+  }
+};
+
 export default {
-  getAll, create, addLike, setToken,
+  getAll, create, addLike, remove, setToken,
 };
