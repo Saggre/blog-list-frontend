@@ -16,10 +16,10 @@ const Blog = ({ blog, onLike, onRemove }) => {
           likes&nbsp;
           <span className="blog-likes">{blog.likes}</span>
           {' '}
-          <button type="button" onClick={() => onLike(blog)}>like</button>
+          <button className="blog-button blog-button--like" type="button" onClick={() => onLike(blog)}>like</button>
         </div>
         <div className="blog-author">{blog.author}</div>
-        <div><button type="button" onClick={() => onRemove(blog)}>remove</button></div>
+        <div><button className="blog-button blog-button--remove" type="button" onClick={() => onRemove(blog)}>remove</button></div>
       </Toggleable>
     </div>
   );

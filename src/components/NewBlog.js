@@ -9,27 +9,45 @@ const NewBlog = ({ onCreate }) => {
   return (
     <div>
       <h2>create new</h2>
-      <form>
+      <form
+        className="new-blog new-blog--form"
+        onSubmit={async (event) => {
+          event.preventDefault();
+          if (await onCreate({ title, author, url })) {
+            setTitle('');
+            setAuthor('');
+            setUrl('');
+          }
+        }}
+      >
         title:
-        <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} />
+        <input
+          className="new-blog-input new-blog-input--title"
+          type="text"
+          value={title}
+          onChange={(event) => setTitle(event.target.value)}
+        />
         <br />
         author:
-        <input type="text" value={author} onChange={(event) => setAuthor(event.target.value)} />
+        <input
+          className="new-blog-input new-blog-input--author"
+          type="text"
+          value={author}
+          onChange={(event) => setAuthor(event.target.value)}
+        />
         <br />
         url:
-        <input type="text" value={url} onChange={(event) => setUrl(event.target.value)} />
+        <input
+          className="new-blog-input new-blog-input--url"
+          type="text"
+          value={url}
+          onChange={(event) => setUrl(event.target.value)}
+        />
         <br />
         <input
+          className="new-blog-button new-blog-button--create"
           type="submit"
           value="create"
-          onClick={async (event) => {
-            event.preventDefault();
-            if (await onCreate({ title, author, url })) {
-              setTitle('');
-              setAuthor('');
-              setUrl('');
-            }
-          }}
         />
       </form>
     </div>
