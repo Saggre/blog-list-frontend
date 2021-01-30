@@ -7,18 +7,18 @@ const Blog = ({ blog, onLike, onRemove }) => {
 
   return (
     <div className="blog">
-      <div>
-        {blog.title}
-      </div>
+      <div className="blog-title">{blog.title}</div>
       <Toggleable buttonLabel="view" buttonCloseLabel="hide" ref={blogRef}>
-        <div><a href={blog.url}>{blog.url}</a></div>
-        <div>
+        <div className="blog-url-container">
+          <a href={blog.url}><span className="blog-url">{blog.url}</span></a>
+        </div>
+        <div className="blog-likes-container">
           likes&nbsp;
-          {blog.likes}
+          <span className="blog-likes">{blog.likes}</span>
           {' '}
           <button type="button" onClick={() => onLike(blog)}>like</button>
         </div>
-        <div>{blog.author}</div>
+        <div className="blog-author">{blog.author}</div>
         <div><button type="button" onClick={() => onRemove(blog)}>remove</button></div>
       </Toggleable>
     </div>
