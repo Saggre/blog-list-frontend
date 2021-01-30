@@ -50,14 +50,7 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    try {
-      blogService.getAll().then((b) => setBlogs(b));
-    } catch (e) {
-      displayMessage({
-        type: 'error',
-        text: e.toString(),
-      });
-    }
+    blogService.getAll().then((b) => setBlogs(b));
   }, []);
 
   /**

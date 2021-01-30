@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import PropTypes from 'prop-types';
 import Toggleable from './Toggleable';
 
 const Blog = ({ blog, onLike, onRemove }) => {
@@ -22,6 +23,14 @@ const Blog = ({ blog, onLike, onRemove }) => {
       </Toggleable>
     </div>
   );
+};
+
+Blog.propTypes = {
+  // TODO create blog model
+  // eslint-disable-next-line react/forbid-prop-types
+  blog: PropTypes.object.isRequired,
+  onLike: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };
 
 export default Blog;
