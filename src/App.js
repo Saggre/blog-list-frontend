@@ -11,7 +11,7 @@ import Toggleable from './components/Toggleable';
 const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, _setUser] = useState(null);
-  const [message, setMessage] = useState({ text: '', timeout: 0 });
+  const [message, setMessage] = useState({ object: { text: '', type: '' }, timeout: 0 });
   const blogFormRef = useRef();
 
   /**
@@ -27,18 +27,18 @@ const App = () => {
 
   /**
    * Displays a message to the user
-   * @param text
+   * @param messageObject
    */
-  const displayMessage = (text) => {
+  const displayMessage = (messageObject) => {
     if (message.timeout) {
       clearTimeout(message.timeout);
     }
 
     const timeout = setTimeout(() => {
-      setMessage({ text: '', timeout: 0 });
+      setMessage({ object: { text: '', type: '' }, timeout: 0 });
     }, 3000);
 
-    setMessage({ text, timeout });
+    setMessage({ object: messageObject, timeout });
   };
 
   useEffect(() => {
@@ -166,7 +166,7 @@ const App = () => {
   if (user === null) {
     return (
       <>
-        <Notification message={message.text} />
+        <Notification text={message.object.text} type={message.object.type} />
         <Login onLogin={(username, password) => handleLogin(username, password)} />
       </>
     );
@@ -175,7 +175,7 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={message.text} />
+      <Notification text={message.object.text} type={message.object.type} />
       <div>
         {`${user.name} logged in`}
         &nbsp;
