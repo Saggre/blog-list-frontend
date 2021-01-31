@@ -10,20 +10,9 @@ import Toggleable from './components/Toggleable';
 
 const App = () => {
   const [blogs, setBlogs] = useState([]);
-  const [user, _setUser] = useState(null);
+  const [user, setUser] = useState(null);
   const [message, setMessage] = useState({ object: { text: '', type: '' }, timeout: 0 });
   const blogFormRef = useRef();
-
-  /**
-   * Set new user
-   * @param newUser
-   */
-  const setUser = (newUser) => {
-    if (newUser !== null) {
-      blogService.setToken(newUser.token);
-    }
-    _setUser(newUser);
-  };
 
   /**
    * Displays a message to the user
@@ -57,7 +46,6 @@ const App = () => {
    * Login
    * @param username
    * @param password
-   * @returns {Promise<boolean>}
    */
   const handleLogin = async (username, password) => {
     try {
@@ -69,15 +57,12 @@ const App = () => {
         type: 'success',
         text: `${loginUser.name} logged in`,
       });
-
-      return true;
     } catch (e) {
       displayMessage({
         type: 'error',
         text: e.toString(),
       });
     }
-    return false;
   };
 
   /**
@@ -181,7 +166,7 @@ const App = () => {
         &nbsp;
         <input type="button" onClick={() => handleLogout()} value="logout" />
       </div>
-      <Toggleable buttonLabel="new note" buttonCloseLabel="close" ref={blogFormRef}>
+      <Toggleable buttonLabel="new blog" buttonCloseLabel="close" ref={blogFormRef}>
         <NewBlog onCreate={(blog) => handleBlogCreation(blog)} />
       </Toggleable>
       {blogs.sort((a, b) => {

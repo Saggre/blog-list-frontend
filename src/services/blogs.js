@@ -1,17 +1,10 @@
 import axios from 'axios';
 
 const baseUrl = '/api/blogs';
-const authConfig = {
-  headers: { Authorization: null },
-};
 
-/**
- * Set auth token
- * @param token
- */
-const setToken = (token) => {
-  authConfig.headers.Authorization = `Bearer ${token}`;
-};
+const getAuthConfig = () => ({
+  headers: { Authorization: `bearer ${JSON.parse(localStorage.getItem('user')).token}` },
+});
 
 /**
  * Get all blogs
@@ -38,7 +31,7 @@ const create = async (blog) => {
       title: blog.title,
       url: blog.url,
       author: blog.author,
-    }, authConfig);
+    }, getAuthConfig());
 
     return response.data;
   } catch (e) {
@@ -55,7 +48,7 @@ const addLike = async (blog) => {
   try {
     const response = await axios.put(`${baseUrl}/${blog.id}`, {
       likes: blog.likes + 1,
-    }, authConfig);
+    }, getAuthConfig());
 
     return response.data;
   } catch (e) {
@@ -70,7 +63,7 @@ const addLike = async (blog) => {
  */
 const remove = async (blog) => {
   try {
-    const response = await axios.delete(`${baseUrl}/${blog.id}`, authConfig);
+    const response = await axios.delete(`${baseUrl}/${blog.id}`, getAuthConfig());
 
     return response.data;
   } catch (e) {
@@ -79,5 +72,5 @@ const remove = async (blog) => {
 };
 
 export default {
-  getAll, create, addLike, remove, setToken,
+  getAll, create, addLike, remove,
 };

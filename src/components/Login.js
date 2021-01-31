@@ -8,23 +8,37 @@ const Login = ({ onLogin }) => {
   return (
     <div>
       <h2>Log in to application</h2>
-      <form>
+      <form
+        className="login-form"
+        onSubmit={(event) => {
+          event.preventDefault();
+          onLogin(username, password);
+          setUsername('');
+          setPassword('');
+        }}
+      >
         Username
-        <input type="text" value={username} onChange={(event) => setUsername(event.target.value)} />
+        <input
+          type="text"
+          autoComplete="username"
+          className="login-form-input login-form-input--username"
+          value={username}
+          onChange={(event) => setUsername(event.target.value)}
+        />
         <br />
         Password
-        <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} />
+        <input
+          type="password"
+          className="login-form-input login-form-input--password"
+          autoComplete="current-password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
         <br />
         <input
           type="submit"
+          className="login-form-input login-form-input--submit"
           value="Login"
-          onClick={async (event) => {
-            event.preventDefault();
-            if (await onLogin(username, password)) {
-              setUsername('');
-              setPassword('');
-            }
-          }}
         />
       </form>
     </div>
